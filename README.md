@@ -55,6 +55,23 @@ If the flag `-e "SENTINEL=true"` is passed there are 3 Sentinel nodes running on
 
 This image requires at least `Docker` version 1.10 but the latest version is recommended.
 
+# Generate self signed cert
+
+Use https://github.com/redis/redis/blob/6.2/utils/gen-test-certs.sh to generate your self signed cert
+
+Add these to your docker-compose.yaml environment section for your cluster
+
+```
+    environment:
+      REDIS_TLS_CERT_FILE: /etc/redis/tls/redis.crt
+      REDIS_TLS_KEY_FILE: /etc/redis/tls/redis.key
+      REDIS_TLS_CA_FILE: /etc/redis/tls/ca.crt
+    volumes:
+     - ./local/redis/tests/tls/:/etc/redis/tls
+```
+
+The volume path is the directory where you place your self-signed certs
+
 # Important for Mac users
 
 If you are using this container to run a redis cluster on your mac computer, then you need to configure the container to use another IP address for cluster discovery as it can't use the default discovery IP that is hardcoded into the container.
